@@ -3,13 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { PaymentsEntity } from './payments.entity';
 
-@Entity('stayPayReturn')
-export class StayPayReturnEntity {
+@Entity('paymentMethod')
+export class PaymentMethodEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
@@ -27,4 +29,7 @@ export class StayPayReturnEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => PaymentsEntity, (payment) => payment.method)
+  payments?: PaymentsEntity[];
 }

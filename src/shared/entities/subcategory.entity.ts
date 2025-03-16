@@ -3,20 +3,24 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductsEntity } from './product.entity';
+import { CategoryEntity } from './category.entity';
 
-@Entity('product')
-export class ProductEntity {
+@Entity('subcategory')
+export class SubcategoryEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
-
   @Column('bigint', {
     nullable: false,
   })
-  subcategory_id: number;
+  category_id: number;
 
   @Column('varchar', {
     length: 255,
@@ -30,22 +34,6 @@ export class ProductEntity {
   })
   description: string;
 
-  @Column('bigint', {
-    nullable: false,
-  })
-  sale_price: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  stock: number;
-
-  @Column('varchar', {
-    length: 255,
-    nullable: false,
-  })
-  image: string;
-
   @CreateDateColumn()
   created_at: Timestamp;
 
@@ -54,4 +42,11 @@ export class ProductEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => ProductsEntity, (product) => product.subcategory)
+  product?: ProductsEntity[];
+
+  @ManyToOne(() => CategoryEntity, (category) => category.subcategory)
+  @JoinColumn({ name: 'category_id' })
+  category?: CategoryEntity;
 }

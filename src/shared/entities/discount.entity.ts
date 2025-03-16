@@ -6,17 +6,15 @@ import {
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductsEntity } from './product.entity';
-import { SupplierEntity } from './suppliers.entity';
+import { CategoryEntity } from './category.entity';
 
-@Entity('supplierProduct')
-export class SupplierProductEntity {
+@Entity('discount')
+export class DiscountEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
@@ -28,18 +26,39 @@ export class SupplierProductEntity {
   @Column('bigint', {
     nullable: false,
   })
-  supplier_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  purchase_price: number;
+  category_id: number;
 
   @Column('varchar', {
     length: 255,
     nullable: false,
   })
-  quantity_purchased: string;
+  name: string;
+
+  @Column('varchar', {
+    length: 255,
+    nullable: false,
+  })
+  description: string;
+
+  @Column('decimal', {
+    nullable: false,
+  })
+  percentage: number;
+
+  @Column('datetime', {
+    nullable: false,
+  })
+  start_date: Date;
+
+  @Column('datetime', {
+    nullable: false,
+  })
+  end_date: Date;
+
+  @Column('tinyint', {
+    nullable: false,
+  })
+  active: number;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -50,11 +69,11 @@ export class SupplierProductEntity {
   @DeleteDateColumn()
   deleted_at: Timestamp;
 
-  @ManyToOne(() => ProductsEntity, (product) => product.supplierProduct)
+  @ManyToOne(() => ProductsEntity, (product) => product.discounts)
   @JoinColumn({ name: 'product_id' })
   product?: ProductsEntity;
 
-  @ManyToOne(() => SupplierEntity, (supplier) => supplier.supplierProduct)
-  @JoinColumn({ name: 'supplier_id' })
-  supplier?: SupplierEntity;
+  @ManyToOne(() => CategoryEntity, (category) => category.discounts)
+  @JoinColumn({ name: 'category_id' })
+  category?: CategoryEntity;
 }

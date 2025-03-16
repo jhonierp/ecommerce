@@ -3,35 +3,23 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrderEntity } from './order.entity';
 
-@Entity('orderDetails')
-export class OrderDetailsEntity {
+@Entity('statusOrder')
+export class StatusOrderEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column('bigint', {
+  @Column('varchar', {
+    length: 255,
     nullable: false,
   })
-  order_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  product_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  amount: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  unit_price: number;
+  description: string;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -41,4 +29,7 @@ export class OrderDetailsEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => OrderEntity, (order) => order.status)
+  order?: OrderEntity[];
 }

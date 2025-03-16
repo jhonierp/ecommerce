@@ -3,13 +3,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductsEntity } from './product.entity';
+import { join } from 'path';
 
-@Entity('discount')
-export class DiscountEntity {
+@Entity('inventoryHistory')
+export class InventoryHistoryEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
@@ -18,42 +22,22 @@ export class DiscountEntity {
   })
   product_id: number;
 
+  @Column('varchar', {
+    length: 255,
+    nullable: false,
+  })
+  movement_type: string;
+
   @Column('bigint', {
     nullable: false,
   })
-  category_id: number;
+  amount: number;
 
   @Column('varchar', {
     length: 255,
     nullable: false,
   })
-  name: string;
-
-  @Column('varchar', {
-    length: 255,
-    nullable: false,
-  })
-  description: string;
-
-  @Column('decimal', {
-    nullable: false,
-  })
-  percentage: number;
-
-  @Column('datetime', {
-    nullable: false,
-  })
-  start_date: Date;
-
-  @Column('datetime', {
-    nullable: false,
-  })
-  end_date: Date;
-
-  @Column('tinyint', {
-    nullable: false,
-  })
-  active: number;
+  reason: string;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -63,4 +47,8 @@ export class DiscountEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @ManyToOne(() => ProductsEntity, (product) => product.inventoryHistory)
+  @JoinColumn({ name: 'product_id' })
+  product?: ProductsEntity;
 }

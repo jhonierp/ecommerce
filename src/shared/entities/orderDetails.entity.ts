@@ -3,13 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductsEntity } from './product.entity';
+import { OrderEntity } from './order.entity';
 
-@Entity('payments')
-export class PaymentsEntity {
+@Entity('orderDetails')
+export class OrderDetailsEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
@@ -21,7 +27,7 @@ export class PaymentsEntity {
   @Column('bigint', {
     nullable: false,
   })
-  method_id: number;
+  product_id: number;
 
   @Column('bigint', {
     nullable: false,
@@ -31,7 +37,7 @@ export class PaymentsEntity {
   @Column('bigint', {
     nullable: false,
   })
-  status_id: number;
+  unit_price: number;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -41,4 +47,12 @@ export class PaymentsEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @ManyToOne(() => ProductsEntity, (product) => product.orderDetails)
+  @JoinColumn({ name: 'product_id' })
+  product?: ProductsEntity;
+
+  @ManyToOne(() => OrderEntity, (order) => order.orderDetails)
+  @JoinColumn({ name: 'order_id' })
+  order?: OrderEntity;
 }

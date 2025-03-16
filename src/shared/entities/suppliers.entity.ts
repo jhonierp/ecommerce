@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { SupplierProductEntity } from './supplierProduct.entity';
 
 @Entity('suppliers')
 export class SupplierEntity {
@@ -48,4 +50,10 @@ export class SupplierEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(
+    () => SupplierProductEntity,
+    (supplierProduct) => supplierProduct.supplier,
+  )
+  supplierProduct?: SupplierProductEntity[];
 }

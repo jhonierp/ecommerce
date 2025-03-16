@@ -3,37 +3,41 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductsEntity } from './product.entity';
+import { UserEntity } from './user.entity';
 
-@Entity('inventoryHistory')
-export class InventoryHistoryEntity {
+@Entity('review')
+export class ReviewEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
   @Column('bigint', {
     nullable: false,
   })
-  product_id: number;
-
-  @Column('varchar', {
-    length: 255,
-    nullable: false,
-  })
-  movement_type: string;
+  user_id: number;
 
   @Column('bigint', {
     nullable: false,
   })
-  amount: number;
+  product_id: number;
+
+  @Column('bigint', {
+    nullable: false,
+  })
+  rating: number;
 
   @Column('varchar', {
     length: 255,
     nullable: false,
   })
-  reason: string;
+  comment: string;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -43,4 +47,12 @@ export class InventoryHistoryEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @ManyToOne(() => ProductsEntity, (product) => product.reviews)
+  @JoinColumn({ name: 'product_id' })
+  product?: ProductsEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.reviews)
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 }

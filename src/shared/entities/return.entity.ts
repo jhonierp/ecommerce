@@ -4,21 +4,24 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductsEntity } from './product.entity';
-import { SupplierEntity } from './suppliers.entity';
+import { OrderEntity } from './order.entity';
+import { StayPayReturnEntity } from './stayPayReturn.entity';
 
-@Entity('supplierProduct')
-export class SupplierProductEntity {
+@Entity('return')
+export class ReturnEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
+
+  @Column('bigint', {
+    nullable: false,
+  })
+  order_id: number;
 
   @Column('bigint', {
     nullable: false,
@@ -28,18 +31,18 @@ export class SupplierProductEntity {
   @Column('bigint', {
     nullable: false,
   })
-  supplier_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  purchase_price: number;
+  amount: number;
 
   @Column('varchar', {
     length: 255,
     nullable: false,
   })
-  quantity_purchased: string;
+  reason: string;
+
+  @Column('bigint', {
+    nullable: false,
+  })
+  state_id: string;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -50,11 +53,15 @@ export class SupplierProductEntity {
   @DeleteDateColumn()
   deleted_at: Timestamp;
 
-  @ManyToOne(() => ProductsEntity, (product) => product.supplierProduct)
+  @ManyToOne(() => ProductsEntity, (product) => product.returns)
   @JoinColumn({ name: 'product_id' })
   product?: ProductsEntity;
 
-  @ManyToOne(() => SupplierEntity, (supplier) => supplier.supplierProduct)
-  @JoinColumn({ name: 'supplier_id' })
-  supplier?: SupplierEntity;
+  @ManyToOne(() => OrderEntity, (order) => order.returns)
+  @JoinColumn({ name: 'order_id' })
+  order?: OrderEntity;
+
+  @ManyToOne(() => StayPayReturnEntity, (state) => state.returns)
+  @JoinColumn({ name: 'state_id' })
+  state?: StayPayReturnEntity;
 }

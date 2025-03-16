@@ -3,10 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { SubcategoryEntity } from './subcategory.entity';
+import { DiscountEntity } from './discount.entity';
 
 @Entity('category')
 export class CategoryEntity {
@@ -33,4 +36,10 @@ export class CategoryEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => SubcategoryEntity, (subcategory) => subcategory.category)
+  subcategory?: SubcategoryEntity[];
+
+  @OneToMany(() => DiscountEntity, (discount) => discount.category)
+  discounts?: DiscountEntity[];
 }

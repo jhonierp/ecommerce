@@ -3,25 +3,18 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ReturnEntity } from './return.entity';
+import { PaymentsEntity } from './payments.entity';
 
-@Entity('subcategory')
-export class SubcategoryEntity {
+@Entity('stayPayReturn')
+export class StayPayReturnEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
-  @Column('bigint', {
-    nullable: false,
-  })
-  category_id: number;
-
-  @Column('varchar', {
-    length: 255,
-    nullable: false,
-  })
-  name: string;
 
   @Column('varchar', {
     length: 255,
@@ -37,4 +30,10 @@ export class SubcategoryEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => ReturnEntity, (returnEntity) => returnEntity.state)
+  returns?: ReturnEntity[];
+
+  @OneToMany(() => PaymentsEntity, (payment) => payment.status)
+  payments?: PaymentsEntity[];
 }

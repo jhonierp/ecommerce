@@ -1,22 +1,27 @@
+import { join } from 'path/posix';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ProductsEntity } from './product.entity';
+import { UserEntity } from './user.entity';
 
-@Entity('return')
-export class ReturnEntity {
+@Entity('shoppingCart')
+export class ShoppingCartEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
   @Column('bigint', {
     nullable: false,
   })
-  order_id: number;
+  user_id: number;
 
   @Column('bigint', {
     nullable: false,
@@ -28,17 +33,6 @@ export class ReturnEntity {
   })
   amount: number;
 
-  @Column('varchar', {
-    length: 255,
-    nullable: false,
-  })
-  reason: string;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  state_id: string;
-
   @CreateDateColumn()
   created_at: Timestamp;
 
@@ -47,4 +41,12 @@ export class ReturnEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @ManyToOne(() => ProductsEntity, (product) => product.shoppingCart)
+  @JoinColumn({ name: 'product_id' })
+  product?: ProductsEntity;
+
+  @ManyToOne(() => UserEntity, (user) => user.shoppingCart)
+  @JoinColumn({ name: 'user_id' })
+  user?: UserEntity;
 }

@@ -3,10 +3,19 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  Or,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { ShoppingCartEntity } from './shoppingCart.entity';
+import { OrderEntity } from './order.entity';
+import { ReviewEntity } from './review.entity';
+import { UserTypesEntity } from './userTypes.entity';
 
 @Entity('user')
 export class UserEntity {
@@ -74,4 +83,17 @@ export class UserEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => ShoppingCartEntity, (shoppingCart) => shoppingCart.user)
+  shoppingCart?: ShoppingCartEntity[];
+
+  @OneToMany(() => OrderEntity, (order) => order.user)
+  order?: OrderEntity[];
+
+  @OneToMany(() => ReviewEntity, (review) => review.user)
+  reviews?: ReviewEntity[];
+
+  @ManyToOne(() => UserTypesEntity, (userType) => userType.users)
+  @JoinColumn({ name: 'User_type_id' })
+  userType?: UserTypesEntity;
 }

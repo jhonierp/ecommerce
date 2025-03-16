@@ -3,30 +3,23 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Timestamp,
   UpdateDateColumn,
 } from 'typeorm';
+import { UserEntity } from './user.entity';
 
-@Entity('shoppingCart')
-export class ShoppingCartEntity {
+@Entity('userTypes')
+export class UserTypesEntity {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id?: number;
 
-  @Column('bigint', {
+  @Column('varchar', {
+    length: 255,
     nullable: false,
   })
-  user_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  product_id: number;
-
-  @Column('bigint', {
-    nullable: false,
-  })
-  amount: number;
+  description: string;
 
   @CreateDateColumn()
   created_at: Timestamp;
@@ -36,4 +29,7 @@ export class ShoppingCartEntity {
 
   @DeleteDateColumn()
   deleted_at: Timestamp;
+
+  @OneToMany(() => UserEntity, (user) => user.userType)
+  users?: UserEntity[];
 }

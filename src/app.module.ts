@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SharedModule } from './shared/shared.module';
+import { MigrationsModule } from './migrations/migrations.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
       inject: [ConfigService],
     }),
     SharedModule,
+    MigrationsModule,
   ],
 })
 export class AppModule {}
