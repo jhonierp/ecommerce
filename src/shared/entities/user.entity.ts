@@ -56,7 +56,7 @@ export class UserEntity {
     length: 255,
     nullable: true,
   })
-  password: string;
+  password?: string;
 
   @Column('varchar', {
     length: 255,
@@ -76,13 +76,13 @@ export class UserEntity {
   User_type_id: number;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @OneToMany(() => ShoppingCartEntity, (shoppingCart) => shoppingCart.user)
   shoppingCart?: ShoppingCartEntity[];

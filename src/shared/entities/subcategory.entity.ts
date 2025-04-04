@@ -35,13 +35,13 @@ export class SubcategoryEntity {
   description: string;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @OneToMany(() => ProductsEntity, (product) => product.subcategory)
   product?: ProductsEntity[];

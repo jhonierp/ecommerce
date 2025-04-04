@@ -39,13 +39,13 @@ export class PaymentsEntity {
   status_id: number;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @ManyToOne(() => OrderEntity, (order) => order.payments)
   @JoinColumn({ name: 'order_id' })

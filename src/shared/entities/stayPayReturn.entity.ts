@@ -23,13 +23,13 @@ export class StayPayReturnEntity {
   description: string;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @OneToMany(() => ReturnEntity, (returnEntity) => returnEntity.state)
   returns?: ReturnEntity[];

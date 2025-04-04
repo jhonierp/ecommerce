@@ -61,13 +61,13 @@ export class DiscountEntity {
   active: number;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @ManyToOne(() => ProductsEntity, (product) => product.discounts)
   @JoinColumn({ name: 'product_id' })

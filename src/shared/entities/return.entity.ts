@@ -45,13 +45,13 @@ export class ReturnEntity {
   state_id: string;
 
   @CreateDateColumn()
-  created_at: Timestamp;
+  createdAt?: Timestamp;
 
   @UpdateDateColumn()
-  updated_at: Timestamp;
+  updatedAt?: Timestamp;
 
   @DeleteDateColumn()
-  deleted_at: Timestamp;
+  deletedAt?: Timestamp;
 
   @ManyToOne(() => ProductsEntity, (product) => product.returns)
   @JoinColumn({ name: 'product_id' })
