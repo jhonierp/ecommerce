@@ -59,4 +59,13 @@ export class CreateOrUpdateProductDto {
   @IsNotEmpty()
   @Min(0)
   stock: number;
+
+  @ApiProperty({
+    type: String,
+    nullable: false,
+    required: true,
+  })
+  @IsString()
+  @IsNotEmpty()
+  image: string;
 }
